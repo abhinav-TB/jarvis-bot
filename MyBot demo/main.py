@@ -1,7 +1,7 @@
 import requests as requests
 import random
 
-url = "https://api.telegram.org/bot<token>"
+url = "https://api.telegram.org/bot1087700191:AAHm7jvxWw9lJ3nnspCNDHn3nQEn6GiKlTg/"
 
 
 # create func that get chat id
@@ -47,6 +47,9 @@ def main():
                 send_message(get_chat_id(update),
                              'You have ' + str(_1) + ' and ' + str(_2) + ' and ' + str(_3) + ' !\n Your result is ' +
                              str(_1 + _2 + _3) + '!!!')
+            elif get_message_text(update).lower() == "good morning":
+                send_message(get_chat_id(update), 'good morning have a nice day')
+
             else:
                 send_message(get_chat_id(update), "Sorry Not Understand what you inputted:( I love you")
             update_id += 1
