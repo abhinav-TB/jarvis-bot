@@ -1,5 +1,6 @@
 import requests as requests
 import random
+import webbrowser
 
 url = "https://api.telegram.org/bot1087700191:AAHm7jvxWw9lJ3nnspCNDHn3nQEn6GiKlTg/"
 
@@ -49,9 +50,14 @@ def main():
                              str(_1 + _2 + _3) + '!!!')
             elif get_message_text(update).lower() == "good morning":
                 send_message(get_chat_id(update), 'good morning have a nice day')
-
+            elif get_message_text(update).lower() == "open google":
+                send_message(get_chat_id(update), webbrowser.open('www.google.com'))
+            elif get_message_text(update).lower() == "open safety":
+                send_message(get_chat_id(update), webbrowser.open('https://abhinav-tb.github.io/safety-web/'))
+            elif get_message_text(update).lower() == "open ml":
+                send_message(get_chat_id(update), webbrowser.open('https://teachablemachine.withgoogle.com/models/lZBLyuB4/'))
             else:
-                send_message(get_chat_id(update), "Sorry Not Understand what you inputted:( I love you")
+                send_message(get_chat_id(update), "Sorry Not Understand what you inputted:")
             update_id += 1
 
 
