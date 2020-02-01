@@ -57,7 +57,7 @@ def main():
             elif get_message_text(update).lower() == "open ml":
                 send_message(get_chat_id(update), webbrowser.open('https://teachablemachine.withgoogle.com/models/lZBLyuB4/'))
             else:
-                send_message(get_chat_id(update), "Sorry Not Understand what you inputed:")
+                send_message(get_chat_id(update), "Sorry Not Understand what you inputed: ")
             update_id += 1
 
 
