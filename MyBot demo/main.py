@@ -49,7 +49,7 @@ def main():
                              'You have ' + str(_1) + ' and ' + str(_2) + ' and ' + str(_3) + ' !\n Your result is ' +
                              str(_1 + _2 + _3) + '!!!')
             elif get_message_text(update).lower() == "good morning":
-                send_message(get_chat_id(update), 'good morning have a nice day')
+                send_message(get_chat_id(update), 'good morning have a nice day sir')
             elif get_message_text(update).lower() == "open google":
                 send_message(get_chat_id(update), webbrowser.open('www.google.com'))
             elif get_message_text(update).lower() == "open safety":
