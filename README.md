@@ -1,3 +1,3 @@
 # jarvis-bot
-a simple experimental telegram bot
+a personal assistant bot
 under construction
