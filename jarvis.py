@@ -1,7 +1,9 @@
 import pyttsx3
 import datetime
 import speech_recognition as sr
-
+import wikipedia
+import smtplib
+import webbrowser as wb
 engine=pyttsx3.init()
 
 
@@ -58,6 +60,14 @@ def takeCommand():
         return "none"
 
     return query
+    
+def sendEmail(to,content):
+    server =smtplib.SMTP('smtp.gamil.com')
+    server.echo()
+    server.starttls()
+    server.login("abhinavelenthikara@gmail.com","holygrace123")
+    server.sendmail("abhinavelenthikara@gmail.com",to,content)
+
 
 if __name__ == "__main__":
     wishme()
@@ -67,7 +77,33 @@ if __name__ == "__main__":
         if 'time' in query:
             time()
         elif 'date' in query:
-            date()
+            date()   
+        elif 'offline' in query:
+            quit()
+        elif 'wikipedia' in query:
+            speak("Searching..")
+            query=query.replace("wikipedia","")
+            result=wikipedia.summary(query,sentences=2)
+            print(result)
+            speak(result)
+        elif "send email" in query :
+            try:
+                speak("what should i say?")
+                content =takeCommand()
+                to="abhinavtb@gmail.com"
+                sendEmail(to,content)
+                speak("email send")
+            except Exception as e:
+                print(e)
+                speak("unable to send the email")
+
+        elif "chrome" in query :
+            speak("what should i search for")
+            chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
+            search =takeCommand.lower()
+            wb.get(chrome_path).open_new_tab(search+'.com')
+
+        
 
         
 
