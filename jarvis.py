@@ -4,6 +4,7 @@ import speech_recognition as sr
 import wikipedia
 import smtplib
 import webbrowser as wb
+import os
 engine=pyttsx3.init()
 
 
@@ -42,24 +43,25 @@ def wishme():
     speak("jarvis at your service please tell me how can i help you")
 
 def takeCommand():
-    r=sr.Recognizer()
+
+    r = sr.Recognizer()
     with sr.Microphone() as source:
-        print("listening")
-        r.pause_threshold =1
-        audio =r.listen(source)
+        print("Listening...")
+        # r.pause_threshold = 1
+        audio = r.listen(source)
 
     try:
-        print("recognizing..")
-        query = r.recognize_google(audio, language="en-in")
-        print(query)
+        print("Recognizing...")
+        query = r.recognize_google(audio, language='en-in')
+        print(f"AK47 Said:{query}\n")
 
     except Exception as e:
         print(e)
-        speak("say that again please")
-
-        return "none"
-
+        print("Say that again Please...")
+        speak("Say that again Please...")
+        return "None"
     return query
+
     
 def sendEmail(to,content):
     server =smtplib.SMTP('smtp.gamil.com')
@@ -100,8 +102,15 @@ if __name__ == "__main__":
         elif "chrome" in query :
             speak("what should i search for")
             chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
-            search =takeCommand.lower()
+            search =takeCommand().lower()
             wb.get(chrome_path).open_new_tab(search+'.com')
+
+        elif "play songs" in query:
+            songs_dir="" 
+            songs =os.litdir(songs_dir)
+            os.startfile(os.path.join(songs_dir,songs[0]))
+        
+        
 
         
 
