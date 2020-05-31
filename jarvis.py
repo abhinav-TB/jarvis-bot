@@ -50,10 +50,12 @@ def takeCommand():
         print("Listening...")
         # r.pause_threshold = 1
         audio = r.listen(source)
+        print("hello")
 
     try:
         print("Recognizing...")
         query = r.recognize_google(audio, language='en-in')
+        # query=r.recognize_wit(audio)
         print(f"AK47 Said:{query}\n")
 
     except Exception as e:
