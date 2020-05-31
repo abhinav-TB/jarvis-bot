@@ -5,6 +5,7 @@ import wikipedia
 import smtplib
 import webbrowser as wb
 import os
+import psutil
 engine=pyttsx3.init()
 
 
@@ -29,8 +30,8 @@ def date():
 
 def wishme():
     speak("welcome back sir")
-    time()
-    date()
+    # time()
+    # date()
     hour =datetime.datetime.now().hour
     if hour>= 6 and  hour<12:
         speak("good morning sir")
@@ -67,8 +68,15 @@ def sendEmail(to,content):
     server =smtplib.SMTP('smtp.gamil.com')
     server.echo()
     server.starttls()
-    server.login("abhinavelenthikara@gmail.com","holygrace123")
-    server.sendmail("abhinavelenthikara@gmail.com",to,content)
+    server.login("email","password")
+    server.sendmail("email",to,content)
+
+def cpu():
+    usage =str(psutil.cpu_percent())
+    speak("CPU usage is"+usage)
+    battery=psutil.sensors_battery()
+    speak("Battery is at")
+    speak(battery.percent)
 
 
 if __name__ == "__main__":
@@ -109,6 +117,20 @@ if __name__ == "__main__":
             songs_dir="" 
             songs =os.litdir(songs_dir)
             os.startfile(os.path.join(songs_dir,songs[0]))
+
+        elif "remember" in query:
+            speak("what should i remember")
+            data=takeCommand()
+            speak("you asked me to remember"+data)
+            remember =open("data.txt",'w')
+            remember.write(data)
+            remember.close()
+        elif "do you know anything" in query:
+            remember=open("data.txt")
+            speak("you said me to rember that"+remember.read())
+        
+        elif "cpu" in query:
+            cpu()
         
         
 
