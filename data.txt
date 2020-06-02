@@ -1,1 +1,1 @@
-nothing
+say hello

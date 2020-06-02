@@ -4,7 +4,7 @@ import speech_recognition as sr
 import wikipedia
 import smtplib
 import webbrowser as wb
-import os
+import os,sys
 import psutil
 engine=pyttsx3.init()
 
@@ -29,7 +29,7 @@ def date():
     speak(year)
 
 def wishme():
-    speak("welcome back sir")
+    # speak("welcome back sir")
     # time()
     # date()
     hour =datetime.datetime.now().hour
@@ -41,6 +41,7 @@ def wishme():
         speak("good evening sir")
     else:
         speak("good night sir")
+    speak("welcome back ")
     speak("jarvis at your service please tell me how can i help you")
 
 def takeCommand():
@@ -50,11 +51,13 @@ def takeCommand():
         print("Listening...")
         # r.pause_threshold = 1
         audio = r.listen(source,phrase_time_limit=5)
-        print("hello")
+        # print("hello")
 
     try:
         print("Recognizing...")
-        query = r.recognize_google(audio, language='en-in')
+        # query = r.recognize_google(audio, language='en-in')
+        query = r.recognize_wit(audio, key = "H6MW36R46P6E6QQJTK3PJ36B2G5YSB6Q")
+
         # query=r.recognize_wit(audio)
         print(f"AK47 Said:{query}\n")
 
@@ -116,8 +119,8 @@ if __name__ == "__main__":
             wb.get(chrome_path).open_new_tab(search+'.com')
 
         elif "play songs" in query:
-            songs_dir="" 
-            songs =os.litdir(songs_dir)
+            songs_dir="C:/Users/abhin/OneDrive/Desktop/songs" 
+            songs =os.listdir(songs_dir)
             os.startfile(os.path.join(songs_dir,songs[0]))
 
         elif "remember" in query:
