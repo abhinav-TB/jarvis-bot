@@ -57,6 +57,7 @@ def takeCommand():
         # print("hello")
 
     try:
+      
         print("Recognizing...")
         # query = r.recognize_google(audio, language='en-in')
         query = r.recognize_wit(audio, key = "H6MW36R46P6E6QQJTK3PJ36B2G5YSB6Q")
@@ -67,11 +68,12 @@ def takeCommand():
         print(list(res['intents'])[0]['name'])
 
     except Exception as e:
+      
         print(e)
         print("Say that again Please...")
         speak("Say that again Please...")
-        return "None"
-    return query
+        return "None","None"
+    return query,res
 
     
 def sendEmail(to,content):
@@ -92,15 +94,16 @@ def cpu():
 if __name__ == "__main__":
     wishme()
     while True:
-        query =takeCommand().lower()
-
-        if 'time' in query:
+        query,res =takeCommand()
+        
+        
+        if ('time' in query or 'time' in res):
             time()
-        elif 'date' in query:
+        elif 'date' in query or 'date' in res:
             date()   
-        elif 'offline' in query:
+        elif 'offline' in query or 'offline' in res:
             quit()
-        elif 'wikipedia' in query:
+        elif 'wikipedia' in query or'wiki' in res:
             speak("Searching..")
             query=query.replace("wikipedia","")
             result=wikipedia.summary(query,sentences=2)
@@ -117,13 +120,13 @@ if __name__ == "__main__":
                 print(e)
                 speak("unable to send the email")
 
-        elif "chrome" in query :
+        elif "chrome" in query or "chrome" in res:
             speak("what should i search for")
             chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
             search =takeCommand().lower()
             wb.get(chrome_path).open_new_tab(search+'.com')
 
-        elif "play songs" in query:
+        elif res=="music" or "song" in query:
             songs_dir="C:/Users/abhin/OneDrive/Desktop/songs" 
             songs =os.listdir(songs_dir)
             os.startfile(os.path.join(songs_dir,songs[0]))
