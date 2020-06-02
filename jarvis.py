@@ -6,6 +6,9 @@ import smtplib
 import webbrowser as wb
 import os,sys
 import psutil
+from wit import Wit
+
+client = Wit('H6MW36R46P6E6QQJTK3PJ36B2G5YSB6Q')
 engine=pyttsx3.init()
 
 
@@ -60,6 +63,8 @@ def takeCommand():
 
         # query=r.recognize_wit(audio)
         print(f"AK47 Said:{query}\n")
+        res=client.message(query)
+        print(list(res['intents'])[0]['name'])
 
     except Exception as e:
         print(e)
