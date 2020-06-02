@@ -49,7 +49,7 @@ def takeCommand():
     with sr.Microphone() as source:
         print("Listening...")
         # r.pause_threshold = 1
-        audio = r.listen(source)
+        audio = r.listen(source,phrase_time_limit=5)
         print("hello")
 
     try:
@@ -70,8 +70,8 @@ def sendEmail(to,content):
     server =smtplib.SMTP('smtp.gamil.com')
     server.echo()
     server.starttls()
-    server.login("email","password")
-    server.sendmail("email",to,content)
+    server.login("abhinavelenthikara@gmail.com","pass")
+    server.sendmail("abhinavelenthikara@gmail.com",to,content)
 
 def cpu():
     usage =str(psutil.cpu_percent())
