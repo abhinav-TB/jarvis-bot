@@ -2,7 +2,7 @@ import pyttsx3
 import datetime
 import speech_recognition as sr
 import wikipedia
-import smtplib
+import smtplib,ssl
 import webbrowser as wb
 import os,sys
 import psutil
@@ -59,12 +59,13 @@ def takeCommand():
     try:
       
         print("Recognizing...")
-        # query = r.recognize_google(audio, language='en-in')
-        query = r.recognize_wit(audio, key = "H6MW36R46P6E6QQJTK3PJ36B2G5YSB6Q")
+        query = r.recognize_google(audio, language='en-in')
+        # query = r.recognize_wit(audio, key = "H6MW36R46P6E6QQJTK3PJ36B2G5YSB6Q")
 
         # query=r.recognize_wit(audio)
         print(f"AK47 Said:{query}\n")
         res=client.message(query)
+        intent=list(res['intents'])[0]['name']
         print(list(res['intents'])[0]['name'])
 
     except Exception as e:
@@ -73,15 +74,36 @@ def takeCommand():
         print("Say that again Please...")
         speak("Say that again Please...")
         return "None","None"
-    return query,res
+    return intent,query
 
     
-def sendEmail(to,content):
-    server =smtplib.SMTP('smtp.gamil.com')
-    server.echo()
-    server.starttls()
-    server.login("abhinavelenthikara@gmail.com","pass")
-    server.sendmail("abhinavelenthikara@gmail.com",to,content)
+def sendEmail(content):
+    smtp_server = "smtp.gmail.com"
+    port = 587  # For starttls
+    
+    speak("to whom should i send the message")
+    reciever_email = input("recievers email:")
+    sender_email="kevinspencer344@gmail.com"
+    password = "abhinav123"
+
+    # Create a secure SSL context
+    context = ssl.create_default_context()
+
+    # Try to log in to server and send email
+    try:
+
+        server = smtplib.SMTP(smtp_server,port)
+        server.ehlo() # Can be omitted
+        server.starttls(context=context) # Secure the connection
+        server.ehlo() # Can be omitted
+        server.login(sender_email, password)
+        server.sendmail(sender_email,reciever_email,content)
+    except Exception as e:
+
+        # Print any error messages to stdout
+        print(e)
+    finally:
+        server.quit() 
 
 def cpu():
     usage =str(psutil.cpu_percent())
@@ -90,11 +112,35 @@ def cpu():
     speak("Battery is at")
     speak(battery.percent)
 
+def get_message():
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        print("Listening...")
+        # r.pause_threshold = 1
+        audio = r.listen(source,phrase_time_limit=5)
+        # print("hello")
+
+    try:
+      
+        print("Recognizing...")
+        query = r.recognize_google(audio, language='en-in')
+        print(f"AK47 Said:{query}\n")
+     
+    except Exception as e:
+      
+        print(e)
+        print("Say that again Please...")
+        speak("Say that again Please...")
+        return "None"
+    return query
+
+
 
 if __name__ == "__main__":
     wishme()
     while True:
-        query,res =takeCommand()
+        res,query =takeCommand()
+        
         
         
         if ('time' in query or 'time' in res):
@@ -109,12 +155,12 @@ if __name__ == "__main__":
             result=wikipedia.summary(query,sentences=2)
             print(result)
             speak(result)
-        elif "send email" in query :
+        elif "email" in res or "email" in query :
             try:
                 speak("what should i say?")
-                content =takeCommand()
+                content =get_message()
                 to="abhinavtb@gmail.com"
-                sendEmail(to,content)
+                sendEmail(content)
                 speak("email send")
             except Exception as e:
                 print(e)
@@ -123,10 +169,10 @@ if __name__ == "__main__":
         elif "chrome" in query or "chrome" in res:
             speak("what should i search for")
             chrome_path = 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe %s'
-            search =takeCommand().lower()
+            search =get_message().lower()
             wb.get(chrome_path).open_new_tab(search+'.com')
 
-        elif res=="music" or "song" in query:
+        elif "music" in res or "song" in query:
             songs_dir="C:/Users/abhin/OneDrive/Desktop/songs" 
             songs =os.listdir(songs_dir)
             os.startfile(os.path.join(songs_dir,songs[0]))
